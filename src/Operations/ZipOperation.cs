@@ -56,4 +56,10 @@ public class ZipOperation<T1, T2> : ISubscribable<(T1, T2)>
             OnFlow(value);
         }
     }
+
+    public void Unsubscribe(Action<(T1, T2)> action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+        OnFlow -= action;
+    }
 }

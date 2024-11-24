@@ -1,17 +1,15 @@
 using System;
 
-namespace Reactive.Sources;
+namespace Reactive.Operations;
 
-public class InputSource<T> : IFlowable<T, T>
+public class RaceOperation<T> : ISubscribable<T>
 {
     event Action<T>? OnFlow;
+    ISubscribable<T>? selected = null;
 
-    public void Emit(T value)
+    public RaceOperation(params ISubscribable<T>[] sources)
     {
-        if (OnFlow is null)
-            return;
         
-        OnFlow(value);
     }
 
     public void Subscribe(Action<T> action)

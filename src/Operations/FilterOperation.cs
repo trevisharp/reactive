@@ -4,26 +4,32 @@ namespace Reactive.Operations;
 
 public class FilterOperation<T> : ISubscribable<T>
 {
-    Action<T>? ReciveEvent;
+    Action<T>? OnFlow;
 
     public FilterOperation(ISubscribable<T> source, Func<T, bool> filterFunc)
     {
         ArgumentNullException.ThrowIfNull(filterFunc, nameof(filterFunc));
         
         source.Subscribe(value => {
-            if (ReciveEvent is null)
+            if (OnFlow is null)
                 return;
             
             if (!filterFunc(value))
                 return;
             
-            ReciveEvent(value);
+            OnFlow(value);
         });
     }
 
     public void Subscribe(Action<T> action)
     {
         ArgumentNullException.ThrowIfNull(action, nameof(action));
-        ReciveEvent += action;
+        OnFlow += action;
+    }
+
+    public void Unsubscribe(Action<T> action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+        OnFlow -= action;
     }
 }

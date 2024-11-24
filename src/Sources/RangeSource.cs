@@ -9,7 +9,7 @@ public record RangeInfo(int Start, int End, int Step);
 /// </summary>
 public class RangeSource : IFlowable<RangeInfo, int>
 {
-    event Action<int>? RangeEvent;
+    event Action<int>? OnFlow;
 
     public void Emit(RangeInfo info)
     {
@@ -22,17 +22,17 @@ public class RangeSource : IFlowable<RangeInfo, int>
     {
         ThrowsIfNonPositiveValue(nameof(step), step);
 
-        if (RangeEvent is null)
+        if (OnFlow is null)
             return;
         
         for (int i = start; i < end; i += step)
-            RangeEvent(i);
+            OnFlow(i);
     }
 
     public void Subscribe(Action<int> action)
     {
         ArgumentNullException.ThrowIfNull(action, nameof(action));
-    	RangeEvent += action;
+    	OnFlow += action;
     }
 
     static void ThrowsIfNonPositiveValue(string name, int value)
@@ -41,5 +41,11 @@ public class RangeSource : IFlowable<RangeInfo, int>
             return;
 
         throw new ArgumentException($"The '{name}' may be positive.");
+    }
+
+    public void Unsubscribe(Action<int> action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+        OnFlow -= action;
     }
 }

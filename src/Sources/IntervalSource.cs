@@ -41,4 +41,10 @@ public class IntervalSource(int interval) : ISubscribable<int>
         ArgumentNullException.ThrowIfNull(action, nameof(action));
         OnFlow += action;
     }
+
+    public void Unsubscribe(Action<int> action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+        OnFlow -= action;
+    }
 }
