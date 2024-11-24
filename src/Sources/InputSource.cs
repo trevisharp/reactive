@@ -2,7 +2,7 @@ using System;
 
 namespace Reactive.Sources;
 
-public class Input<T> : IFlowable<T, T>
+public class InputSource<T> : IFlowable<T, T>
 {
     event Action<T>? OnFlow;
 

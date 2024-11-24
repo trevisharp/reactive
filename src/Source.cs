@@ -7,6 +7,12 @@ using Sources;
 public static class Source
 {
     /// <summary>
+    /// Create a input for the flow.
+    /// </summary>
+    public static InputSource<T> Input<T>()
+        => new();
+
+    /// <summary>
     /// Create a range flow data.
     /// From start to end - 1 with a specific step.
     /// </summary>
