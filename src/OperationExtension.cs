@@ -6,21 +6,18 @@ using Operations;
 
 public static class OperationExtension
 {
-    public static MapOperation<T, R> Map<T, R>(
+    public static ISubscribable<R> Map<T, R>(
         this ISubscribable<T> source,
         Func<T, R> mapFunc)
-    {
-        var map = new MapOperation<T, R>(mapFunc);
-        source.Subscribe(map.Emit);
-        return map;
-    }
+        => new MapOperation<T, R>(source, mapFunc);
     
-    public static FilterOperation<T> Filter<T>(
+    public static ISubscribable<T> Filter<T>(
         this ISubscribable<T> source,
         Func<T, bool> filterFunc)
-    {
-        var filter = new FilterOperation<T>(filterFunc);
-        source.Subscribe(filter.Emit);
-        return filter;
-    }
+        => new FilterOperation<T>(source, filterFunc);
+
+    public static ISubscribable<(T1, T2)> Zip<T1, T2>(
+        this ISubscribable<T1> source,
+        ISubscribable<T2> anotherSource
+    ) => new ZipOperation<T1, T2>(source, anotherSource);
 }
