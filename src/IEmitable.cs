@@ -3,7 +3,7 @@ namespace Reactive;
 /// <summary>
 /// A component that can recive a values of type T.
 /// </summary>
-public interface IEmitable<T>
+public interface IEmitable<in T>
 {
     /// <summary>
     /// Emit a value from this component.

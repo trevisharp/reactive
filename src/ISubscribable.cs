@@ -6,7 +6,7 @@ namespace Reactive;
 /// A component that can be recive
 /// a subscription to send values of type R. 
 /// </summary>
-public interface ISubscribable<R>
+public interface ISubscribable<out R>
 {
     /// <summary>
     /// Subscribe to recive result of this node.
