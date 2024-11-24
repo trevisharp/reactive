@@ -11,8 +11,9 @@ public class RaceOperationTests
         var source1 = Interval(3000).Map(value => "slow");
         var source2 = Interval(1000).Map(value => "fast");
         var source3 = Interval(2000).Map(value => "medium");
-
-        source1.Race(source2, source3)
-            .Subscribe(value => Assert.Equal("fast", value));
+        var race = source1.Race(source2, source3);
+        
+        race.Subscribe(value => Assert.Equal("fast", value));
+        race.Wait();
     }
 }

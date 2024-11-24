@@ -6,6 +6,22 @@ using Operations;
 
 public static class OperationExtension
 {
+    /// <summary>
+    /// Wait code flow until the first value return.
+    /// Use only for tests.
+    /// </summary>
+    public static void Wait<T>(
+        this ISubscribable<T> source
+    )
+    {
+        bool waiting = true;
+        source.Subscribe(value => {
+            waiting = false;
+        });
+
+        while (waiting);
+    }
+
     public static ISubscribable<R> Map<T, R>(
         this ISubscribable<T> source,
         Func<T, R> mapFunc)
