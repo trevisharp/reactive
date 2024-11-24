@@ -9,7 +9,34 @@ public class RaceOperation<T> : ISubscribable<T>
 
     public RaceOperation(params ISubscribable<T>[] sources)
     {
+        foreach (var source in sources)
+            Configure(source);
+    }
+
+    void Emit(T value)
+    {
+        if (OnFlow is null)
+            return;
         
+        OnFlow(value);
+    }
+
+    void Configure(ISubscribable<T> source)
+    {
+        source.Subscribe(handler);
+
+        void handler(T value)
+        {
+            selected ??= source;
+
+            if (selected == source)
+            {
+                Emit(value);
+                return;
+            }
+            
+            source.Unsubscribe(handler);
+        }
     }
 
     public void Subscribe(Action<T> action)

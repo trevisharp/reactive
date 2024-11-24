@@ -14,7 +14,7 @@ public class InputSourceTests
         for (int i = 0; i < 5; i++)
             input.Emit(i + 1);
         
-        Assert.Equal(result, [ 1, 2, 3, 4, 5 ]);
+        Assert.Equal([ 1, 2, 3, 4, 5 ], result);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class InputSourceTests
             input.Emit(i + 1);
         input.Subscribe(result.Add);
         
-        Assert.Equal(result, []);
+        Assert.Equal([], result);
     }
 
     [Fact]
@@ -47,6 +47,6 @@ public class InputSourceTests
         input.Emit(1);
         input.Emit(2);
         
-        Assert.Equal(result, [ 1, 2, 1, 1, 2, 2 ]);
+        Assert.Equal([ 1, 2, 1, 1, 2, 2 ], result);
     }
 }

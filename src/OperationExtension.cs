@@ -20,4 +20,9 @@ public static class OperationExtension
         this ISubscribable<T1> source,
         ISubscribable<T2> anotherSource
     ) => new ZipOperation<T1, T2>(source, anotherSource);
+
+    public static ISubscribable<T> Race<T>(
+        this ISubscribable<T> source,
+        params ISubscribable<T>[] others
+    ) => new RaceOperation<T>([ source, ..others ]);
 }
