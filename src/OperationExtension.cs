@@ -14,4 +14,13 @@ public static class OperationExtension
         source.Subscribe(map.Emit);
         return map;
     }
+    
+    public static FilterOperation<T> Filter<T>(
+        this ISubscribable<T> source,
+        Func<T, bool> filterFunc)
+    {
+        var filter = new FilterOperation<T>(filterFunc);
+        source.Subscribe(filter.Emit);
+        return filter;
+    }
 }
