@@ -17,7 +17,11 @@ public static class Source
     /// every specified interval of time.
     /// </summary>
     public static ISubscribable<int> Interval(int interval)
-        => new IntervalSource(interval);
+    {
+        var source = new IntervalSource(interval);
+        source.Start();
+        return source;
+    }
 
     /// <summary>
     /// Create a range flow data.
